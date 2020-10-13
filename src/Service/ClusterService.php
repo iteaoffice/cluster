@@ -32,5 +32,4 @@ use function strlen;
  */
 class ClusterService extends AbstractService
 {
-
 }

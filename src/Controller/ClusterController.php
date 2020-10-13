@@ -25,5 +25,4 @@ use Project\Entity\Project;
  */
 final class ClusterController extends AbstractActionController
 {
-
 }

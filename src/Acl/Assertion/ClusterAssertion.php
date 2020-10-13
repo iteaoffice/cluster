@@ -25,14 +25,12 @@ use Laminas\Permissions\Acl\Role\RoleInterface;
  */
 final class ClusterAssertion extends AbstractAssertion
 {
-
     public function assert(
         Acl $acl,
         RoleInterface $role = null,
         ResourceInterface $resource = null,
         $privilege = null
-    ): bool
-    {
+    ): bool {
         return $this->rolesHaveAccess(Access::ACCESS_OFFICE);
     }
 }

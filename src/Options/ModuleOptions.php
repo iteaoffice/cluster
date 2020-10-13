@@ -21,5 +21,4 @@ use Laminas\Stdlib\AbstractOptions;
  */
 /*final*/ class ModuleOptions extends AbstractOptions
 {
-
 }

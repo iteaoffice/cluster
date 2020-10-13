@@ -122,6 +122,4 @@ class Cluster extends AbstractEntity
         $this->dateUpdated = $dateUpdated;
         return $this;
     }
-
-
 }

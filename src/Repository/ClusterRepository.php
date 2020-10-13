@@ -15,8 +15,6 @@ namespace Cluster\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-
 class ClusterRepository extends EntityRepository implements FilteredObjectRepository
 {
-
 }
