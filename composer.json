@@ -8,12 +8,6 @@
     "cluster"
   ],
   "homepage": "https://itea3.org",
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://packages.itea4.org"
-    }
-  ],
   "authors": [
     {
       "name": "Johan van der Heide",
