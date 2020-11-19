@@ -15,52 +15,54 @@ return [
     'router' => [
         'routes' => [
             'zfcadmin' => [
-                'cluster' => [
-                    'type'          => 'Segment',
-                    'options'       => [
-                        'route'    => '/cluster',
-                        'defaults' => [
-                            'action'     => 'list',
-                            'controller' => Controller\ClusterController::class,
-                        ],
-                    ],
-                    'may_terminate' => true,
-                    'child_routes'  => [
-                        'list' => [
-                            'type'     => 'Segment',
-                            'priority' => 1000,
-                            'options'  => [
-                                'route'    => '/list[/f-:encodedFilter][/page-:page].html',
-                                'defaults' => [
-                                    'action' => 'list',
-                                ],
+                'child_routes' => [
+                    'cluster' => [
+                        'type'          => 'Segment',
+                        'options'       => [
+                            'route'    => '/cluster',
+                            'defaults' => [
+                                'action'     => 'list',
+                                'controller' => Controller\ClusterController::class,
                             ],
                         ],
-                        'new'  => [
-                            'type'    => 'Segment',
-                            'options' => [
-                                'route'    => '/new.html',
-                                'defaults' => [
-                                    'action' => 'new',
+                        'may_terminate' => true,
+                        'child_routes'  => [
+                            'list' => [
+                                'type'     => 'Segment',
+                                'priority' => 1000,
+                                'options'  => [
+                                    'route'    => '/list[/f-:encodedFilter][/page-:page].html',
+                                    'defaults' => [
+                                        'action' => 'list',
+                                    ],
                                 ],
                             ],
-                        ],
-                        'view' => [
-                            'type'    => 'Segment',
-                            'options' => [
-                                'route'    => '/view/[:id].html',
-                                'defaults' => [
-                                    'action' => 'view',
+                            'new'  => [
+                                'type'    => 'Segment',
+                                'options' => [
+                                    'route'    => '/new.html',
+                                    'defaults' => [
+                                        'action' => 'new',
+                                    ],
+                                ],
+                            ],
+                            'view' => [
+                                'type'    => 'Segment',
+                                'options' => [
+                                    'route'    => '/view/[:id].html',
+                                    'defaults' => [
+                                        'action' => 'view',
 
+                                    ],
                                 ],
                             ],
-                        ],
-                        'edit' => [
-                            'type'    => 'Segment',
-                            'options' => [
-                                'route'    => '/edit/[:id].html',
-                                'defaults' => [
-                                    'action' => 'edit',
+                            'edit' => [
+                                'type'    => 'Segment',
+                                'options' => [
+                                    'route'    => '/edit/[:id].html',
+                                    'defaults' => [
+                                        'action' => 'edit',
+                                    ],
                                 ],
                             ],
                         ],

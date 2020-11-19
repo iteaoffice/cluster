@@ -1,0 +1,14 @@
+{% do headTitle().append(translate("txt-admin")) %}
+{% do headTitle().append(translate("txt-cluster")) %}
+{% do headTitle().append(cluster.__toString()) %}
+
+<h1>{{ cluster }} {{ clusterLink(cluster, 'edit','button') }}</h1>
+
+<dl class="dl-horizontal">
+    <dt>{{ translate("txt-cluster") }}</dt>
+    <dd>{{ cluster.name }}</dd>
+    {% if cluster.description %}
+        <dt>{{ translate("txt-description") }}</dt>
+        <dd>{{ cluster.description }}</dd>
+    {% endif %}
+</dl>

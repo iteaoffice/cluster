@@ -1,7 +1,7 @@
 <?php
 
 /**
-*
+ *
  * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
  * @copyright   Copyright (c) 2019 ITEA Office (https://itea3.org)
  * @license     https://itea3.org/license.txt proprietary
@@ -13,18 +13,7 @@ declare(strict_types=1);
 
 namespace Cluster\Service;
 
-use Affiliation\Entity\Affiliation;
-use General\Entity\Country;
-use Cluster\Entity\Cluster;
-use Cluster\Entity\Feedback;
-use Cluster\Entity\Type;
-use Project\Entity\Funding\Funding;
-use Project\Entity\Funding\Source;
-use Project\Entity\Funding\Status;
-use Project\Entity\Project;
-
-use function in_array;
-use function strlen;
+use Cluster\Entity;
 
 /**
  * Class ClusterService
@@ -32,4 +21,15 @@ use function strlen;
  */
 class ClusterService extends AbstractService
 {
+    public function findClusterById(int $id): ?Entity\Cluster
+    {
+        return $this->entityManager->find(Entity\Cluster::class, $id);
+    }
+
+    public function canDeleteCluster(Entity\Cluster $cluster): bool
+    {
+        $cannotDeleteClusterReasons = [];
+
+        return count($cannotDeleteClusterReasons) === 0;
+    }
 }

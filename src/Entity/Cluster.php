@@ -20,7 +20,7 @@ use Laminas\Form\Annotation;
 
 /**
  * @ORM\Table(name="cluster_cluster")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Cluster\Repository\ClusterRepository")
  */
 class Cluster extends AbstractEntity
 {
@@ -28,7 +28,7 @@ class Cluster extends AbstractEntity
      * @ORM\Column(name="cluster_id", type="integer", options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @Annotation\Exclude()
+     * @Annotation\Type("\Laminas\Form\Element\Hidden")
      *
      * @var int
      */
@@ -67,6 +67,11 @@ class Cluster extends AbstractEntity
      * @var DateTime
      */
     private $dateUpdated;
+
+    public function __toString(): string
+    {
+        return (string)$this->name;
+    }
 
     public function getId(): ?int
     {

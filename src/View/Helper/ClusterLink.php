@@ -9,7 +9,7 @@
  * @link        http://github.com/iteaoffice/general for the canonical source repository
  */
 
-declare(strict_clusters=1);
+declare(strict_types=1);
 
 namespace Cluster\View\Helper;
 
@@ -34,38 +34,38 @@ final class ClusterLink extends AbstractLink
         $showOptions = [];
 
         if (null !== $cluster) {
-            $routeParams['id'] = $cluster->getId();
+            $routeParams['id']   = $cluster->getId();
             $showOptions['name'] = $cluster->getName();
         }
 
         switch ($action) {
             case 'new':
                 $linkParams = [
-                    'icon' => 'fas fa-plus',
+                    'icon'  => 'fas fa-plus',
                     'route' => 'zfcadmin/cluster/new',
-                    'text' => $showOptions[$show]
+                    'text'  => $showOptions[$show]
                         ?? $this->translator->translate('txt-new-cluster')
                 ];
                 break;
             case 'edit':
                 $linkParams = [
-                    'icon' => 'far fa-edit',
+                    'icon'  => 'far fa-edit',
                     'route' => 'zfcadmin/cluster/edit',
-                    'text' => $showOptions[$show]
+                    'text'  => $showOptions[$show]
                         ?? $this->translator->translate('txt-edit-cluster')
                 ];
                 break;
             case 'view':
                 $linkParams = [
-                    'icon' => 'fas fa-link',
+                    'icon'  => 'fas fa-link',
                     'route' => 'zfcadmin/cluster/view',
-                    'text' => $showOptions[$show] ?? $cluster->getName()
+                    'text'  => $showOptions[$show] ?? $cluster->getName()
                 ];
                 break;
         }
 
-        $linkParams['action'] = $action;
-        $linkParams['show'] = $show;
+        $linkParams['action']      = $action;
+        $linkParams['show']        = $show;
         $linkParams['routeParams'] = $routeParams;
 
         return $this->parse(Link::fromArray($linkParams));

@@ -13,14 +13,13 @@ declare(strict_types=1);
 
 namespace Cluster\Navigation\Invokable;
 
-use General\Navigation\Invokable\AbstractNavigationInvokable;
 use Cluster\Entity\Cluster;
+use General\Navigation\Invokable\AbstractNavigationInvokable;
 use Laminas\Navigation\Page\Mvc;
 
 /**
- * Class ProjectLabel
- *
- * @package Project\Navigation\Invokable
+ * Class ClusterLabel
+ * @package Cluster\Navigation\Invokable
  */
 final class ClusterLabel extends AbstractNavigationInvokable
 {
