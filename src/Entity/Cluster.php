@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace Cluster\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Laminas\Form\Annotation;
+use Program\Entity\Program;
 
 /**
  * @ORM\Table(name="cluster_cluster")
@@ -67,6 +69,31 @@ class Cluster extends AbstractEntity
      * @var DateTime
      */
     private $dateUpdated;
+    /**
+     * @ORM\ManyToMany(targetEntity="Program\Entity\Program", cascade="persist", mappedBy="cluster")
+     *
+     * @var Program[]|Collections\ArrayCollection
+     */
+    private $program;
+    /**
+     * @ORM\ManyToMany(targetEntity="Program\Entity\Call\Call", cascade="persist", mappedBy="cluster")
+     *
+     * @var \Program\Entity\Call\Call[]|Collections\ArrayCollection
+     */
+    private $call;
+    /**
+     * @ORM\OneToMany(targetEntity="\Project\Entity\Project\Cluster", cascade="persist", mappedBy="cluster")
+     *
+     * @var \Project\Entity\Project\Cluster[]|Collections\ArrayCollection
+     */
+    private $projectCluster;
+
+    public function __construct()
+    {
+        $this->program        = new Collections\ArrayCollection();
+        $this->call           = new Collections\ArrayCollection();
+        $this->projectCluster = new Collections\ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -125,6 +152,39 @@ class Cluster extends AbstractEntity
     public function setDateUpdated(?DateTime $dateUpdated): Cluster
     {
         $this->dateUpdated = $dateUpdated;
+        return $this;
+    }
+
+    public function getProgram()
+    {
+        return $this->program;
+    }
+
+    public function setProgram($program): Cluster
+    {
+        $this->program = $program;
+        return $this;
+    }
+
+    public function getCall()
+    {
+        return $this->call;
+    }
+
+    public function setCall($call): Cluster
+    {
+        $this->call = $call;
+        return $this;
+    }
+
+    public function getProjectCluster()
+    {
+        return $this->projectCluster;
+    }
+
+    public function setProjectCluster($projectCluster): Cluster
+    {
+        $this->projectCluster = $projectCluster;
         return $this;
     }
 }

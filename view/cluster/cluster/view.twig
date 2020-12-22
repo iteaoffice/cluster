@@ -12,3 +12,84 @@
         <dd>{{ cluster.description }}</dd>
     {% endif %}
 </dl>
+
+
+{% if not cluster.call.isEmpty() %}
+    <h2>{{ translate("txt-overview-of-cluster-calls") }}</h2>
+
+    <table class="table table-hover table-striped table-sm">
+        <thead>
+        <tr>
+            <th>{{ translate("txt-call-id") }}</th>
+            <th>{{ translate("txt-call-name") }}</th>
+            <th>{{ translate("txt-call-po-open") }}</th>
+            <th>{{ translate("txt-call-po-close") }}</th>
+            <th>{{ translate("txt-call-fpp-open") }}</th>
+            <th>{{ translate("txt-call-fpp-close") }}</th>
+            <th>{{ translate("txt-clusters") }}</th>
+            <th>{{ translate("txt-#projects") }}</th>
+            <th>{{ translate("txt-export-size") }}</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <td colspan="9"></td>
+        </tr>
+        </tfoot>
+        <tbody>
+        {% for call in cluster.call %}
+            <tr>
+                <td><small class="text-muted">{{ call.id }}</small></td>
+                <td>{{ callLink(call,'view-admin','name') }} {{ callLink(call,'edit', 'icon') }}</td>
+                <td>{% if call.poOpenDate %}{{ call.poOpenDate|string_date }}{% endif %}</td>
+                <td>{% if call.poCloseDate %}{{ call.poCloseDate|string_date }}{% endif %}</td>
+                <td>{% if call.fppOpenDate %}{{ call.fppOpenDate|string_date }}{% endif %}</td>
+                <td>{% if call.fppCloseDate %}{{ call.fppCloseDate|string_date }}{% endif %}</td>
+                <td>{% for cluster in call.cluster %}{{ clusterLink(cluster,'view') }} {% if not loop.last %} &middot; {% endif %}{% endfor %}</td>
+                <td>{{ call.project.count }}</td>
+                <td>{{ callLink(call,'export-size','icon') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+
+{% if not cluster.program.isEmpty() %}
+    <h2>{{ translate("txt-overview-of-cluster-programs") }}</h2>
+    <table class="table table-hover table-striped table-sm">
+        <thead>
+        <tr>
+            <th>{{ translate("txt-id") }}</th>
+            <th>{{ translate("txt-name") }}</th>
+            <th>{{ translate("txt-number") }}</th>
+            <th>{{ translate("txt-calls") }}</th>
+            <th>{{ translate("txt-eurkeka-export") }}</th>
+            <th>{{ translate("txt-cluster") }}</th>
+            <th>{{ translate("txt-invoice-method") }}</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <td colspan="7"></td>
+        </tr>
+        </tfoot>
+        <tbody>
+        {% for program in cluster.program %}
+            <tr>
+                <td><small class="text-muted">{{ program.id }}</small></td>
+                <td>{{ programLink(program,'view','name') }} {{ programLink(program,'edit', 'icon') }}</td>
+                <td>{{ program.number }}</td>
+                <td>{{ program.call.count }}</td>
+                <td>
+                    <a href="{{ url('zfcadmin/project/export/program',{'id': program.id}) }}"><i
+                                class="fas fa-exchange-alt"></i></a>
+                    {{ programLink(program,'export-size','icon') }}
+                </td>
+                <td>{% for cluster in program.cluster %}{{ clusterLink(cluster,'view') }} {% if not loop.last %} &middot; {% endif %}{% endfor %}</td>
+                <td>{% for method in program.invoiceMethod %}{{ method }}{% endfor %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
