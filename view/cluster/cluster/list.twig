@@ -27,19 +27,27 @@
             <th>{{ translate("txt-id") }}</th>
             <th>{% include 'application/partial/sortable-table-header' with {'route': 'zfcadmin/cluster/view', 'criteria': 'name', 'text': translate("txt-name")} %}</a></th>
             <th>{{ translate("txt-description") }}</th>
+            <th>{{ translate("txt-programs") }}</th>
+            <th>{{ translate("txt-calls") }}</th>
+            <th>{{ translate("txt-projects") }}</th>
+            <th>{{ translate("txt-logo") }}</th>
         </tr>
         </thead>
         <tfoot>
         <tr>
-            <td colspan="3"></td>
+            <td colspan="7"></td>
         </tr>
         </tfoot>
         <tbody>
-        {% for type in paginator.getCurrentItems() %}
+        {% for cluster in paginator.getCurrentItems() %}
             <tr>
-                <td><small class="text-muted">{{ type.id }}</small></td>
-                <td>{{ clusterLink(type, 'view', 'name') }} {{ clusterLink(type, 'edit', 'icon') }}</td>
-                <td>{{ custer.description }}</td>
+                <td><small class="text-muted">{{ cluster.id }}</small></td>
+                <td>{{ clusterLink(cluster, 'view', 'name') }} {{ clusterLink(cluster, 'edit', 'icon') }}</td>
+                <td>{{ cluster.description }}</td>
+                <td>{{ cluster.program.count() }}</td>
+                <td>{{ cluster.call.count() }}</td>
+                <td>{{ cluster.projectCluster.count() }}</td>
+                <td>{% if cluster.hasLogo() %}{{ clusterLogo(cluster, 100) }}{% endif %}</td>
             </tr>
         {% endfor %}
         </tbody>

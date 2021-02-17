@@ -1,18 +1,18 @@
 <?php
 
 /**
- * ITEA Office copyright message placeholder
+ * ITEA Office all rights reserved
  *
- * @category    Organisation
- * @package     Config
  * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2019 ITEA Office (https://itea3.org)
+ * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
+ * @license     https://itea3.org/license.txt proprietary
  */
 
 namespace Cluster;
 
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use General\Navigation\Factory\NavigationInvokableFactory;
+use General\View\Factory\ImageHelperFactory;
 use General\View\Factory\LinkHelperFactory;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Laminas\Stdlib;
@@ -21,6 +21,7 @@ $config = [
     'controllers'        => [
         'factories' => [
             Controller\ClusterController::class => ConfigAbstractFactory::class,
+            Controller\ImageController::class   => ConfigAbstractFactory::class,
         ],
     ],
     'controller_plugins' => [
@@ -37,16 +38,19 @@ $config = [
     'view_helpers'       => [
         'aliases'    => [
             'clusterLink' => View\Helper\ClusterLink::class,
+            'clusterLogo' => View\Helper\Cluster\Logo::class,
         ],
         'invokables' => [
         ],
         'factories'  => [
-            View\Helper\ClusterLink::class => LinkHelperFactory::class,
+            View\Helper\ClusterLink::class  => LinkHelperFactory::class,
+            View\Helper\Cluster\Logo::class => ImageHelperFactory::class,
         ],
     ],
     'service_manager'    => [
         'factories' => [
             Acl\Assertion\ClusterAssertion::class    => Factory\InvokableFactory::class,
+            Form\ClusterForm::class                  => ConfigAbstractFactory::class,
             InputFilter\ClusterFilter::class         => Factory\InputFilterFactory::class,
             Service\ClusterService::class            => ConfigAbstractFactory::class,
             Service\FormService::class               => Factory\FormServiceFactory::class,

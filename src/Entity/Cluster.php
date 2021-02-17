@@ -1,12 +1,11 @@
 <?php
 
 /**
+ * ITEA Office all rights reserved
  *
  * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2019 ITEA Office (https://itea3.org)
+ * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
  * @license     https://itea3.org/license.txt proprietary
- *
- * @link        http://github.com/iteaoffice/project for the canonical source repository
  */
 
 declare(strict_types=1);
@@ -87,17 +86,36 @@ class Cluster extends AbstractEntity
      * @var \Project\Entity\Project\Cluster[]|Collections\ArrayCollection
      */
     private $projectCluster;
+    /**
+     * @ORM\OneToMany(targetEntity="\Organisation\Entity\Board", cascade="persist", mappedBy="cluster")
+     *
+     * @var \Organisation\Entity\Board[]|Collections\ArrayCollection
+     */
+    private $board;
+    /**
+     * @ORM\OneToOne(targetEntity="Cluster\Entity\Cluster\Logo", cascade={"persist","remove"}, mappedBy="cluster")
+     * @Annotation\Exclude()
+     *
+     * @var \Cluster\Entity\Cluster\Logo|null
+     */
+    private $logo;
 
     public function __construct()
     {
         $this->program        = new Collections\ArrayCollection();
         $this->call           = new Collections\ArrayCollection();
         $this->projectCluster = new Collections\ArrayCollection();
+        $this->board          = new Collections\ArrayCollection();
     }
 
     public function __toString(): string
     {
         return (string)$this->name;
+    }
+
+    public function hasLogo(): bool
+    {
+        return null !== $this->logo;
     }
 
     public function getId(): ?int
@@ -185,6 +203,28 @@ class Cluster extends AbstractEntity
     public function setProjectCluster($projectCluster): Cluster
     {
         $this->projectCluster = $projectCluster;
+        return $this;
+    }
+
+    public function getBoard()
+    {
+        return $this->board;
+    }
+
+    public function setBoard($board): Cluster
+    {
+        $this->board = $board;
+        return $this;
+    }
+
+    public function getLogo(): ?\Cluster\Entity\Cluster\Logo
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?\Cluster\Entity\Cluster\Logo $logo): Cluster
+    {
+        $this->logo = $logo;
         return $this;
     }
 }

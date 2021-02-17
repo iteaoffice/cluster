@@ -6,11 +6,23 @@
 {% do form.prepare() %}
 {{ form().openTag(form)|raw }}
 
-{% set type = form.get('cluster_entity_cluster') %}
+{% set clusterFieldset = form.get('cluster_entity_cluster') %}
 
-{{ ztbformelement(type.get('id')) }}
-{{ ztbformelement(type.get('cluster')) }}
-{{ ztbformelement(type.get('description')) }}
+{{ ztbformelement(clusterFieldset.get('id')) }}
+{{ ztbformelement(clusterFieldset.get('name')) }}
+{{ ztbformelement(clusterFieldset.get('description')) }}
+
+{% if cluster.hasLogo() %}
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">{{ translate("txt-current-logo") }}</label>
+
+        <div class="col-sm-9">
+            <p class="form-control-plaintext">{{ clusterLogo(cluster, 300) }}</p>
+        </div>
+    </div>
+{% endif %}
+
+{{ ztbformelement(form.get('file')) }}
 {{ formelement(form.get('csrf')) }}
 
 <div class="form-group row">

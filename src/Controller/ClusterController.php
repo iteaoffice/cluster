@@ -1,12 +1,11 @@
 <?php
 
 /**
+ * ITEA Office all rights reserved
  *
  * @author      Johan van der Heide <johan.van.der.heide@itea3.org>
- * @copyright   Copyright (c) 2019 ITEA Office (https://itea3.org)
+ * @copyright   Copyright (c) 2021 ITEA Office (https://itea3.org)
  * @license     https://itea3.org/license.txt proprietary
- *
- * @link        http://github.com/iteaoffice/project for the canonical source repository
  */
 
 declare(strict_types=1);
@@ -19,11 +18,14 @@ use Cluster\Service;
 use Contact\Entity\Contact;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use General\Service\GeneralService;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\Mvc\Plugin\Identity\Identity;
 use Laminas\Paginator\Paginator;
+use Laminas\Validator\File\ImageSize;
+use Laminas\Validator\File\MimeType;
 use Laminas\View\Model\ViewModel;
 use Search\Form\SearchFilter;
 
@@ -36,12 +38,14 @@ final class ClusterController extends AbstractActionController
 {
     private Service\ClusterService $clusterService;
     private Service\FormService $formService;
+    private GeneralService $generalService;
     private TranslatorInterface $translator;
 
-    public function __construct(Service\ClusterService $clusterService, Service\FormService $formService, TranslatorInterface $translator)
+    public function __construct(Service\ClusterService $clusterService, Service\FormService $formService, GeneralService $generalService, TranslatorInterface $translator)
     {
         $this->clusterService = $clusterService;
         $this->formService    = $formService;
+        $this->generalService = $generalService;
         $this->translator     = $translator;
     }
 
@@ -88,15 +92,32 @@ final class ClusterController extends AbstractActionController
             if ($form->isValid()) {
                 /* @var $cluster Entity\Cluster */
                 $cluster = $form->getData();
+                $this->clusterService->save($cluster);
 
-                $result = $this->clusterService->save($cluster);
+                $fileData = $this->params()->fromFiles();
 
-                $this->flashMessenger()->addSuccessMessage($this->translator->translate('txt-custer-has-been-created-successfully'));
+                if (! empty($fileData['file']['name'])) {
+                    $logo = new Entity\Cluster\Logo();
+                    $logo->setCluster($cluster);
+                    $logo->setClusterLogo(file_get_contents($fileData['file']['tmp_name']));
+                    $imageSizeValidator = new ImageSize();
+                    $imageSizeValidator->isValid($fileData['file']);
+
+                    $fileTypeValidator = new MimeType();
+                    $fileTypeValidator->isValid($fileData['file']);
+                    $logo->setContentType(
+                        $this->generalService->findContentTypeByContentTypeName($fileTypeValidator->type)
+                    );
+                    $cluster->setLogo($logo);
+                    $this->clusterService->save($logo);
+                }
+
+                $this->flashMessenger()->addSuccessMessage($this->translator->translate('txt-cluster-has-been-created-successfully'));
 
                 return $this->redirect()->toRoute(
                     'zfcadmin/cluster/view',
                     [
-                        'id' => $result->getId(),
+                        'id' => $cluster->getId(),
                     ]
                 );
             }
@@ -146,6 +167,27 @@ final class ClusterController extends AbstractActionController
 
                 $this->clusterService->save($cluster);
 
+                $fileData = $this->params()->fromFiles();
+
+                if (! empty($fileData['file']['name'])) {
+                    $logo = $cluster->getLogo();
+                    if (! $logo) {
+                        // Create a new logo element
+                        $logo = new Entity\Cluster\Logo();
+                        $logo->setCluster($cluster);
+                    }
+                    $logo->setClusterLogo(file_get_contents($fileData['file']['tmp_name']));
+                    $imageSizeValidator = new ImageSize();
+                    $imageSizeValidator->isValid($fileData['file']);
+
+                    $fileTypeValidator = new MimeType();
+                    $fileTypeValidator->isValid($fileData['file']);
+                    $logo->setContentType(
+                        $this->generalService->findContentTypeByContentTypeName($fileTypeValidator->type)
+                    );
+                    $this->clusterService->save($logo);
+                }
+
                 $this->flashMessenger()->addSuccessMessage($this->translator->translate('txt-cluster-has-been-updated-successfully'));
 
                 return $this->redirect()->toRoute(
@@ -157,7 +199,10 @@ final class ClusterController extends AbstractActionController
             }
         }
 
-        return new ViewModel(['form' => $form]);
+        return new ViewModel([
+            'form'    => $form,
+            'cluster' => $cluster
+        ]);
     }
 
     public function viewAction(): ViewModel

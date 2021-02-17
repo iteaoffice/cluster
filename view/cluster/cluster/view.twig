@@ -4,15 +4,25 @@
 
 <h1>{{ cluster }} {{ clusterLink(cluster, 'edit','button') }}</h1>
 
-<dl class="dl-horizontal">
-    <dt>{{ translate("txt-cluster") }}</dt>
-    <dd>{{ cluster.name }}</dd>
-    {% if cluster.description %}
-        <dt>{{ translate("txt-description") }}</dt>
-        <dd>{{ cluster.description }}</dd>
-    {% endif %}
-</dl>
-
+<div class="row">
+    <div class="col-md-8">
+        <dl class="dl-horizontal">
+            <h2>{{ translate("txt-information") }}</h2>
+            <dt>{{ translate("txt-cluster") }}</dt>
+            <dd>{{ cluster.name }}</dd>
+            {% if cluster.description %}
+                <dt>{{ translate("txt-description") }}</dt>
+                <dd>{{ cluster.description }}</dd>
+            {% endif %}
+        </dl>
+    </div>
+    <div class="col-md-4">
+        {% if cluster.hasLogo() %}
+            <h2>{{ translate("txt-logo") }}</h2>
+            {{ clusterLogo(cluster, 300) }}
+        {% endif %}
+    </div>
+</div>
 
 {% if not cluster.call.isEmpty() %}
     <h2>{{ translate("txt-overview-of-cluster-calls") }}</h2>
