@@ -32,16 +32,24 @@ class ClusterService extends AbstractService
         $clusters = [];
 
         foreach ($call->getCluster() as $cluster) {
-            $clusters[$cluster->getId()] = $cluster;
+            $clusters[$cluster->getName()] = $cluster;
         }
 
         foreach ($call->getProgram()->getCluster() as $cluster) {
-            $clusters[$cluster->getId()] = $cluster;
+            $clusters[$cluster->getName()] = $cluster;
         }
 
+        //We want the sorting on the name, but we want the key to be the cluster_id, so we first use the name as index
+        //do then the sort and replace the keys with the ids
         ksort($clusters);
 
-        return $clusters;
+        //Now do a simple array to return the clusters indexed by its key
+        $keyIndexedClusters = [];
+        foreach ($clusters as $cluster) {
+            $keyIndexedClusters[$cluster->getId()] = $cluster;
+        }
+
+        return $keyIndexedClusters;
     }
 
     public function getPrimaryClusterByProject(Project $project): ?Entity\Cluster
@@ -51,7 +59,7 @@ class ClusterService extends AbstractService
             return $projectCluster->isPrimary();
         })->first();
 
-        if (! $primary) {
+        if (!$primary) {
             return null;
         }
 
@@ -65,7 +73,7 @@ class ClusterService extends AbstractService
             return $projectCluster->isSecondary();
         })->first();
 
-        if (! $primary) {
+        if (!$primary) {
             return null;
         }
 
