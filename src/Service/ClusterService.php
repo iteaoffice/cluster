@@ -59,7 +59,7 @@ class ClusterService extends AbstractService
             return $projectCluster->isPrimary();
         })->first();
 
-        if (!$primary) {
+        if (! $primary) {
             return null;
         }
 
@@ -73,7 +73,7 @@ class ClusterService extends AbstractService
             return $projectCluster->isSecondary();
         })->first();
 
-        if (!$primary) {
+        if (! $primary) {
             return null;
         }
 
