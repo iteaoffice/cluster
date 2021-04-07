@@ -69,25 +69,25 @@ class Cluster extends AbstractEntity
      */
     private $dateUpdated;
     /**
-     * @ORM\ManyToMany(targetEntity="Program\Entity\Program", cascade="persist", mappedBy="cluster")
+     * @ORM\ManyToMany(targetEntity="Program\Entity\Program", cascade={"persist"}, mappedBy="cluster")
      *
      * @var Program[]|Collections\ArrayCollection
      */
     private $program;
     /**
-     * @ORM\ManyToMany(targetEntity="Program\Entity\Call\Call", cascade="persist", mappedBy="cluster")
+     * @ORM\ManyToMany(targetEntity="Program\Entity\Call\Call", cascade={"persist"}, mappedBy="cluster")
      *
      * @var \Program\Entity\Call\Call[]|Collections\ArrayCollection
      */
     private $call;
     /**
-     * @ORM\OneToMany(targetEntity="\Project\Entity\Project\Cluster", cascade="persist", mappedBy="cluster")
+     * @ORM\OneToMany(targetEntity="\Project\Entity\Project\Cluster", cascade={"persist"}, mappedBy="cluster")
      *
      * @var \Project\Entity\Project\Cluster[]|Collections\ArrayCollection
      */
     private $projectCluster;
     /**
-     * @ORM\OneToMany(targetEntity="\Organisation\Entity\Board", cascade="persist", mappedBy="cluster")
+     * @ORM\OneToMany(targetEntity="\Organisation\Entity\Board", cascade={"persist"}, mappedBy="cluster")
      *
      * @var \Organisation\Entity\Board[]|Collections\ArrayCollection
      */

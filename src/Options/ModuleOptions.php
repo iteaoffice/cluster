@@ -18,6 +18,30 @@ use Laminas\Stdlib\AbstractOptions;
  * Class ModuleOptions
  * @package Cluster\Options
  */
-/*final*/ class ModuleOptions extends AbstractOptions
+class ModuleOptions extends AbstractOptions
 {
+    private string $reportingPortalApiUrl = 'https://tool.eureka-clusters-ai.eu';
+    private string $bearerToken = 'abcd';
+
+    public function getReportingPortalApiUrl(): string
+    {
+        return $this->reportingPortalApiUrl;
+    }
+
+    public function setReportingPortalApiUrl(string $reportingPortalApiUrl): ModuleOptions
+    {
+        $this->reportingPortalApiUrl = $reportingPortalApiUrl;
+        return $this;
+    }
+
+    public function getBearerToken(): string
+    {
+        return $this->bearerToken;
+    }
+
+    public function setBearerToken(string $bearerToken): ModuleOptions
+    {
+        $this->bearerToken = $bearerToken;
+        return $this;
+    }
 }

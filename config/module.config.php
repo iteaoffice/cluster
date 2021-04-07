@@ -49,10 +49,14 @@ $config = [
     ],
     'service_manager'    => [
         'factories' => [
+            Command\UpdateProject::class => ConfigAbstractFactory::class,
+            Options\ModuleOptions::class => Factory\ModuleOptionsFactory::class,
+
             Acl\Assertion\ClusterAssertion::class    => Factory\InvokableFactory::class,
             Form\ClusterForm::class                  => ConfigAbstractFactory::class,
             InputFilter\ClusterFilter::class         => Factory\InputFilterFactory::class,
             Service\ClusterService::class            => ConfigAbstractFactory::class,
+            Service\StatisticsService::class         => ConfigAbstractFactory::class,
             Service\FormService::class               => Factory\FormServiceFactory::class,
             Navigation\Invokable\ClusterLabel::class => NavigationInvokableFactory::class
 

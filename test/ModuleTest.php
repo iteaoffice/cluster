@@ -29,15 +29,15 @@ use function is_string;
  */
 class ModuleTest extends AbstractServiceTest
 {
-    protected $setUpForEveryTest = false;
+    protected bool $setUpForEveryTest = false;
 
     public function testCanFindConfiguration(): void
     {
         $module = new Module();
         $config = $module->getConfig();
 
-        $this->assertArrayHasKey('service_manager', $config);
-        $this->assertArrayHasKey(ConfigAbstractFactory::class, $config);
+        self::assertArrayHasKey('service_manager', $config);
+        self::assertArrayHasKey(ConfigAbstractFactory::class, $config);
     }
 
     public function testInstantiationOfConfigAbstractFactories(): void
@@ -81,7 +81,7 @@ class ModuleTest extends AbstractServiceTest
 
             $instance = new $service(...$instantiatedDependencies);
 
-            $this->assertInstanceOf($service, $instance);
+            self::assertInstanceOf($service, $instance);
         }
     }
 }

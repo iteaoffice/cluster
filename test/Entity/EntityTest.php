@@ -10,21 +10,18 @@
 
 namespace ClusterTest\Entity;
 
-use PHPUnit\Framework\TestCase;
 use Cluster\Entity\AbstractEntity;
-use ReflectionClass;
-use Symfony\Component\Finder\Finder;
 use Laminas\Form\Annotation\AnnotationBuilder;
 use Laminas\Form\Element;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use Symfony\Component\Finder\Finder;
 
 use function is_array;
 use function str_replace;
 
-class EntityTest extends TestCase
+final class EntityTest extends TestCase
 {
-    /**
-     *
-     */
     public function testCanCreateEntitiesAndSaveTxtFields(): void
     {
         $labels = [];
@@ -44,10 +41,9 @@ class EntityTest extends TestCase
                 $object = new $className();
 
                 self::assertInstanceOf($className, $object);
-                self::assertNull($object->getId());
                 self::assertTrue(isset($object));
 
-                $builder = new AnnotationBuilder();
+                $builder      = new AnnotationBuilder();
                 $dataFieldset = $builder->createForm($object);
 
                 /** @var Element $element */

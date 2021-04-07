@@ -16,9 +16,18 @@ use Doctrine\ORM\EntityManager;
 use General\Service\GeneralService;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
+use Program\Service\CallService;
+use Project\Provider\ProjectProvider;
+use Project\Service\ProjectService;
 
 return [
     ConfigAbstractFactory::class => [
+        Command\UpdateProject::class        => [
+            Options\ModuleOptions::class,
+            ProjectService::class,
+            CallService::class,
+            ProjectProvider::class
+        ],
         // Controllers
         Controller\ClusterController::class => [
             Service\ClusterService::class,
@@ -30,6 +39,9 @@ return [
             Service\ClusterService::class
         ],
         Service\ClusterService::class       => [
+            EntityManager::class
+        ],
+        Service\StatisticsService::class    => [
             EntityManager::class
         ],
         Form\ClusterForm::class             => [
