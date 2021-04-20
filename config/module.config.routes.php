@@ -15,7 +15,7 @@ namespace Cluster;
 return [
     'router' => [
         'routes' => [
-            'image'     => [
+            'image'   => [
                 'child_routes' => [
                     'cluster-logo' => [
                         'type'    => 'Segment',

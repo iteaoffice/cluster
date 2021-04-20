@@ -28,13 +28,26 @@ class StatisticsService extends AbstractService
 
     public function getResults(Funder $funder, array $filter, int $output = Partner::RESULT_PROJECT): array
     {
+        //Make the chart/partners the same
+        if ($output === 3) {
+            $output = 1;
+        }
+
         return $this->entityManager->getRepository(Partner::class)->getResults($funder, $filter, $output);
     }
 
     public function generateFacets(Funder $funder, array $filter, int $output = Partner::RESULT_PROJECT): array
     {
-        $countries    = $this->entityManager->getRepository(Partner::class)->fetchCountries($funder, $filter, $output);
-        $partnerTypes = $this->entityManager->getRepository(Partner::class)->fetchPartnerTypes($funder, $filter, $output);
+        //Make the chart/partners the same
+        if ($output === 3) {
+            $output = 1;
+        }
+
+        $countries       = $this->entityManager->getRepository(Partner::class)->fetchCountries($funder, $filter, $output);
+        $partnerTypes    = $this->entityManager->getRepository(Partner::class)->fetchPartnerTypes($funder, $filter, $output);
+        $primaryClusters = $this->entityManager->getRepository(Partner::class)->fetchPrimaryClusters($funder, $filter, $output);
+        $projectStatuses = $this->entityManager->getRepository(Partner::class)->fetchProjectStatuses($funder, $filter, $output);
+        $years           = $this->entityManager->getRepository(Partner::class)->fetchYears($funder);
 
         $countriesIndexed = array_map(static function (array $country) {
             return [
@@ -45,14 +58,31 @@ class StatisticsService extends AbstractService
 
         $partnerTypesIndexed = array_map(static function (array $partnerType) {
             return [
-                'partnerTypeCode' => $partnerType['partnerTypeCode'],
-                'amount'          => $partnerType[1]
+                'partnerType' => $partnerType['partnerType'],
+                'amount'      => $partnerType[1]
             ];
         }, $partnerTypes);
 
+        $primaryClustersIndexed = array_map(static function (array $primaryCluster) {
+            return [
+                'primaryCluster' => $primaryCluster['primaryCluster'],
+                'amount'         => $primaryCluster[1]
+            ];
+        }, $primaryClusters);
+
+        $projectStatusIndexed = array_map(static function (array $projectStatus) {
+            return [
+                'projectStatus' => $projectStatus['projectStatus'],
+                'amount'        => $projectStatus[1]
+            ];
+        }, $projectStatuses);
+
         return [
             'countries'          => $countriesIndexed,
-            'organisation_types' => $partnerTypesIndexed
+            'organisation_types' => $partnerTypesIndexed,
+            'project_status'     => $projectStatusIndexed,
+            'primary_clusters'   => $primaryClustersIndexed,
+            'years'              => $years,
         ];
     }
 }

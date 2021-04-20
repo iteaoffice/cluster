@@ -16,13 +16,18 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="cluster_statistics_partner",indexes={@ORM\Index(name="identifier_index", columns={"identifier"})})
+ * @ORM\Table(name="cluster_statistics_partner",
+ *     indexes={
+ *      @ORM\Index(name="identifier_index", columns={"identifier"}),
+ *      @ORM\Index(name="partner_identifier_index", columns={"partnerIdentifier"})
+ * })
  * @ORM\Entity(repositoryClass="Cluster\Repository\Statistics\PartnerRepository")
  */
 class Partner
 {
     public const RESULT_PROJECT = 1;
     public const RESULT_PARTNER = 2;
+    public const RESULT_CHART   = 3;
 
     /**
      * @ORM\Column(type="integer")
@@ -103,15 +108,15 @@ class Partner
     /**
      * @ORM\Column()
      */
+    private string $partnerIdentifier;
+    /**
+     * @ORM\Column()
+     */
     private string $country;
     /**
      * @ORM\Column()
      */
-    private string $partnerTypeCode;
-    /**
-     * @ORM\Column()
-     */
-    private string $partnerTypeLabel;
+    private string $partnerType;
     /**
      * @ORM\Column(type="boolean")
      */
@@ -159,6 +164,14 @@ class Partner
      */
     private ?float $poCosts = null;
     /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private ?float $poEffortInYear = null;
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private ?float $poCostsInYear = null;
+    /**
      * @ORM\Column(type="array", nullable=true)
      */
     private array $poCountries = [];
@@ -188,6 +201,14 @@ class Partner
      * @ORM\Column(type="float", nullable=true)
      */
     private ?float $fppCosts = null;
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private ?float $fppEffortInYear = null;
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private ?float $fppCostsInYear = null;
     /**
      * @ORM\Column(type="array", nullable=true)
      */
@@ -222,6 +243,14 @@ class Partner
      * @ORM\Column(type="float", nullable=true)
      */
     private ?float $latestVersionCosts = null;
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private ?float $latestVersionEffortInYear = null;
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private ?float $latestVersionCostsInYear = null;
     /**
      * @ORM\Column(type="array", nullable=true)
      */

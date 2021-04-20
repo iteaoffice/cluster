@@ -19,10 +19,13 @@ use Laminas\Stdlib;
 
 $config = [
     'controllers'        => [
-        'factories' => [
-            Controller\ClusterController::class => ConfigAbstractFactory::class,
-            Controller\ImageController::class   => ConfigAbstractFactory::class,
+        'factories'  => [
+            Controller\Admin\ClusterController::class => ConfigAbstractFactory::class,
+            Controller\ImageController::class         => ConfigAbstractFactory::class,
         ],
+        'invokables' => [
+            Controller\ClusterController::class,
+        ]
     ],
     'controller_plugins' => [
         'aliases'   => [

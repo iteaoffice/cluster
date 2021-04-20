@@ -22,29 +22,29 @@ use Project\Service\ProjectService;
 
 return [
     ConfigAbstractFactory::class => [
-        Command\UpdateProject::class        => [
+        Command\UpdateProject::class              => [
             Options\ModuleOptions::class,
             ProjectService::class,
             CallService::class,
             ProjectProvider::class
         ],
         // Controllers
-        Controller\ClusterController::class => [
+        Controller\Admin\ClusterController::class => [
             Service\ClusterService::class,
             Service\FormService::class,
             GeneralService::class,
             TranslatorInterface::class
         ],
-        Controller\ImageController::class   => [
+        Controller\ImageController::class         => [
             Service\ClusterService::class
         ],
-        Service\ClusterService::class       => [
+        Service\ClusterService::class             => [
             EntityManager::class
         ],
-        Service\StatisticsService::class    => [
+        Service\StatisticsService::class          => [
             EntityManager::class
         ],
-        Form\ClusterForm::class             => [
+        Form\ClusterForm::class                   => [
             EntityManager::class
         ]
     ]
