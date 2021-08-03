@@ -13,6 +13,6 @@ declare(strict_types=1);
 return [
     'cluster_options' => [
         'reporting_portal_api_url' => 'https://dev.backend.eureka-clusters.eu',
-        'bearer_token'             => 'ad6c6e07b76e8f2c1ac9e0283f193302b2e91fc3e579830eb7f68089306e7e0b'
+        'bearer_token'             => '2a5882931274068093f092540ec50b8a55e4d9dd'
     ]
 ];

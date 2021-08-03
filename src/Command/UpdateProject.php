@@ -98,7 +98,7 @@ final class UpdateProject extends Command
                     'Content-Type'  => 'application/json'
                 ],
                 RequestOptions::DEBUG       => false,
-                RequestOptions::HTTP_ERRORS => false,
+                RequestOptions::HTTP_ERRORS => true,
                 RequestOptions::JSON        => $this->projectProvider->generateArray($project)
             ]
         );
