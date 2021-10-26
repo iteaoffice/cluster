@@ -1,5 +1,4 @@
 <?php
-
 return [
     'cluster/cluster/reporting' => __DIR__ . '/./view/cluster/cluster/reporting.twig',
     'cluster/admin/cluster/view' => __DIR__ . '/./view/cluster/admin/cluster/view.twig',
