@@ -16,7 +16,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "php": "^7.4 || ^8.0",
+    "php": "^8.0",
     "ext-dom": "*",
     "ext-json": "*",
     "ext-zip": "*",
@@ -30,7 +30,8 @@
     "doctrine/doctrine-orm-module": "^4.0"
   },
   "require-dev": {
-    "iteaoffice/testing": "^2.1"
+    "iteaoffice/testing": "^2.1",
+    "jetbrains/phpstorm-attributes": "dev-master"
   },
   "autoload": {
     "psr-4": {
